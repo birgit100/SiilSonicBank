@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="BankId.cs" />
     <Compile Include="CardType.cs" />
-    <Compile Include="MusealState.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="IActivity.cs" />
     <Compile Include="IActivityType.cs" />

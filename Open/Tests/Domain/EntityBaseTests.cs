@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Open.Aids;
 using Open.Data.Common;
+using Open.Domain.Bank;
 using Open.Domain.Common;
 namespace Open.Tests.Domain
 {
@@ -25,9 +26,8 @@ namespace Open.Tests.Domain
         [TestMethod]
         public void DataIsReadOnlyTest()
         {
-            /*var name = GetMember.Name<Account>(x => x.Data);
-            Assert.IsTrue(IsReadOnly.Field<Account>(name));*/
-            Assert.Inconclusive();
+            var name = GetMember.Name<Account>(x => x.Data);
+            Assert.IsTrue(IsReadOnly.Field<Account>(name));
         }
     }
 }

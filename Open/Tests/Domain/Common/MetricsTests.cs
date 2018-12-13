@@ -1,7 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Open.Aids;
+using Open.Data.Common;
+using Open.Data.Quantity;
+using Open.Domain.Common;
 namespace Open.Tests.Domain.Common {
-    [TestClass] public class MetricsTests/* : EntityBaseTests<Metrics<CurrencyData>, CurrencyData> */{
-     /*   class testClass : Metrics<CurrencyData> {
+    [TestClass] public class MetricsTests : EntityBaseTests<Metrics<CurrencyData>, CurrencyData> {
+        class testClass : Metrics<CurrencyData> {
             public testClass(CurrencyData dbRecord) : base(dbRecord) { }
         }
         protected override Metrics<CurrencyData> getRandomObject() {
@@ -14,7 +18,7 @@ namespace Open.Tests.Domain.Common {
             obj.Data.ID = id;
             Assert.AreEqual(obj.ID, obj.Data.ID);
             Assert.AreEqual(id, obj.ID);
-        }*/
+        }
         //private class metric : Metric {
         //    public static metric Random() {
         //        var x = new metric();

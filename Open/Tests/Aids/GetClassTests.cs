@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Open.Aids;
+using Open.Facade.Bank;
 namespace Open.Tests.Aids {
     [TestClass] public class GetClassTests: BaseTests {
         [TestInitialize] public override void TestInitialize() {
@@ -49,7 +50,7 @@ namespace Open.Tests.Aids {
             Assert.AreEqual(l[0], o.F);
         }
         [TestMethod] public void PropertyTest() {
-         /*   void test(string name) {
+            void test(string name) {
                 Assert.AreEqual(name, GetClass.Property<AccountView>(name).Name);
             }
             Assert.IsNull(GetClass.Property<AccountView>(null));
@@ -60,8 +61,7 @@ namespace Open.Tests.Aids {
             test(GetMember.Name<AccountView>(m => m.Status));
             test(GetMember.Name<AccountView>(m => m.Type));
             test(GetMember.Name<AccountView>(m => m.ValidFrom));
-            test(GetMember.Name<AccountView>(m => m.ValidTo));*/
-            Assert.Inconclusive();
+            test(GetMember.Name<AccountView>(m => m.ValidTo));
         }
     }
 }
