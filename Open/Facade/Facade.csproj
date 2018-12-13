@@ -42,42 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bank\AccountView.cs" />
-    <Compile Include="Bank\AccountViewFactory.cs" />
-    <Compile Include="Bank\AccountViewsList.cs" />
-    <Compile Include="Bank\InsuranceView.cs" />
-    <Compile Include="Bank\InsuranceViewFactory.cs" />
-    <Compile Include="Bank\InsuranceViewList.cs" />
-    <Compile Include="Bank\RequestTransactionView.cs" />
-    <Compile Include="Bank\RequestTransactionViewsList.cs" />
-    <Compile Include="Bank\TransactionView.cs" />
-    <Compile Include="Bank\TransactionViewFactory.cs" />
-    <Compile Include="Bank\TransactionViewsList.cs" />
     <Compile Include="Common\EntityView.cs" />
     <Compile Include="Common\NamedView.cs" />
     <Compile Include="Common\PeriodView.cs" />
-    <Compile Include="Notification\NewInsuranceNotificationView.cs" />
-    <Compile Include="Notification\NewRequestTransactionNotificationView.cs" />
-    <Compile Include="Notification\NewTransactionNotificationView.cs" />
-    <Compile Include="Notification\NotificationView.cs" />
-    <Compile Include="Notification\NotificationViewFactory.cs" />
-    <Compile Include="Notification\NotificationViewsList.cs" />
-    <Compile Include="Notification\RequestStatusNotificationView.cs" />
-    <Compile Include="Notification\WelcomeNotificationView.cs" />
-    <Compile Include="Party\AddressView.cs" />
-    <Compile Include="Party\AddressViewFactory.cs" />
-    <Compile Include="Party\AddressViewsList.cs" />
-    <Compile Include="Party\CountryView.cs" />
-    <Compile Include="Party\CountryViewFactory.cs" />
-    <Compile Include="Party\CountryViewsList.cs" />
-    <Compile Include="Party\EMailAddressView.cs" />
-    <Compile Include="Party\GeographicAddressView.cs" />
-    <Compile Include="Party\TelecomAddressView.cs" />
-    <Compile Include="Party\WebPageAddressView.cs" />
+    <Compile Include="Museum\InventoryMusealView.cs" />
+    <Compile Include="Museum\MusealView.cs" />
+    <Compile Include="Museum\MusealViewsList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quantity\CurrencyView.cs" />
-    <Compile Include="Quantity\CurrencyViewFactory.cs" />
-    <Compile Include="Quantity\CurrencyViewsList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aids\Aids.csproj">
@@ -96,9 +67,6 @@
       <Project>{45851ea0-73c5-4f4c-8a0b-9bc33836a851}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Party\Docs\Address.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

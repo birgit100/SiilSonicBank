@@ -32,7 +32,7 @@
 @RenderBody()
 
 
-@{
+@*@{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
@@ -50,5 +50,5 @@
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">
     Next
-</a>
+</a>*@
 

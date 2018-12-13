@@ -1,13 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Open.Data.Bank;
-using Open.Domain.Bank;
 using Open.Infra;
 namespace Open.Tests.Infra
 {
 
     public class RepositoryTests: BaseTests
     {
-        [TestInitialize]
+       /* [TestInitialize]
         public override void TestInitialize()
         {
             base.TestInitialize();
@@ -15,7 +13,7 @@ namespace Open.Tests.Infra
         }
         [TestMethod] public void IsInitializedTest() {
             Assert.Inconclusive();
-        }
+        }*/
     }
 }
 

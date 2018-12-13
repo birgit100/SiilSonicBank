@@ -2,26 +2,20 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Open.Data.Bank;
-using Open.Domain.Bank;
-using Open.Facade.Bank;
+using Open.Data.User;
 using Open.Sentry.Models;
 
 namespace Open.Sentry.Controllers {
     public class HomeController : Controller {
-        private readonly IAccountsRepository accounts;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IAccountsRepository a, UserManager<ApplicationUser> uManager) {
-            accounts = a;
+        public HomeController(UserManager<ApplicationUser> uManager) {
             userManager = uManager;
         }
         public async Task<IActionResult> Index() {
             var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
             if (loggedInUser == null) return View();
-            var bankAccounts = await accounts.LoadAccountsForUser(loggedInUser.Id);
-            var bankAccountsViewsList = new AccountsViewsList(bankAccounts);
-            return View(bankAccountsViewsList);
+            return View();
 
         }
         public IActionResult About() {
