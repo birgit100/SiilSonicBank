@@ -7,6 +7,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    
     <div class="btn-group dropdown">
         <button class="btn customButton btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
             <span class="glyphicon glyphicon-user">@User.GetFirstName() @User.GetLastName() </span>
