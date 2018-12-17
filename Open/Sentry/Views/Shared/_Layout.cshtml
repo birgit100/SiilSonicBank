@@ -30,38 +30,59 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>*@
     </environment>
     <style>
-        .customButton {
-            color: white;
-        }
+        .customButton { color: white; }
 
-            .customButton:hover {
-                color: lightgrey;
-            }
+        .customButton:hover { color: lightgrey; }
+
+        body {
+            padding-top: 50px; 
+        }
     </style>
 </head>
 <body>
-    <div class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">SonicBank</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto"></ul>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                @await Component.InvokeAsync("Notifications")
+            }
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>
+</div>
+
+
+<div class="container body-content">
+    <div>
+        <img style="width: 100%; display: block; max-height: 200px; object-fit: cover" src="/images/bankpikalt.jpg" alt="Bank image">
+    </div>
+
+    <div class="navbar navbar-expand-lg navbar-dark bg-primary" style="position: static;">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">SonicBank</a>
-            </div>
             <div class="navbar-collapse collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto"></ul>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    @await Component.InvokeAsync("Notifications")
-                }
-                @await Html.PartialAsync("_LoginPartial")
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Transaction")">Transactions</a>
+                </div>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Url.Action("SentIndex", "RequestTransaction")">Requests</a>
+                </div>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Insurance")">Insurances</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - SonicBank</p>
-        </footer>
-    </div>
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - SonicBank</p>
+    </footer>
+</div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
