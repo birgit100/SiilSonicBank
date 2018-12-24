@@ -8,6 +8,15 @@
 }
 
 @section Create {
+    <div class="form-group">
+        <div class="control-label col-md-4" , style="font-weight: bold">Select Account</div>
+        <div class="col-md-4">
+            @using (Html.BeginForm("Index", "Transaction"))
+            {
+                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", onchange = "this.form.submit();" })
+            }
+        </div>
+    </div>
     <a class="btn btn-primary btn-sm"
        href="@Url.Action("Create", "Transaction", new { senderId = TransactionController.BankAccount.Data?.ID })">
         New transaction &raquo;
@@ -31,6 +40,7 @@
         @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"])
         @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
         @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
+        <th></th>
         <th></th>
     </tr>
     </thead>
@@ -74,6 +84,7 @@
                 <span style="color: red; font-weight: bold">@TransactionController.BankAccount.Data?.Balance</span>
             }
         </td>
+        <td></td>
         <td></td>
     </tr>
     </tbody>

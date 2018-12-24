@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -31,26 +33,34 @@ namespace Open.Sentry.Controllers
         public async Task<IActionResult> SentIndex(string id, string sortOrder = null,
             string currentFilter = null,
             string searchString = null, int? page = null) {
-            paginate(id, sortOrder, currentFilter, searchString, page);
-            var bankAccount = await accounts.GetObject(id);
-            ViewBag.BankAccountID = bankAccount.Data.ID;
-            var l = await requests.LoadSentRequestsForAccount(id);
-            var viewList = new RequestTransactionViewsList(l);
-            await loadSenderAndReceiver(viewList);
+            var viewList = await index(id, sortOrder, currentFilter, searchString, page);
             return View(viewList);
         }
         public async Task<IActionResult> ReceivedIndex(string id, string sortOrder = null,
             string currentFilter = null,
             string searchString = null, int? page = null)
         {
-            paginate(id, sortOrder, currentFilter, searchString, page);
-            var bankAccount = await accounts.GetObject(id);
-            ViewBag.BankAccountID = bankAccount.Data.ID;
-            var l = await requests.LoadReceivedRequestsForAccount(id);
-            var viewList = new RequestTransactionViewsList(l);
-            await loadSenderAndReceiver(viewList);
+            var viewList = await index(id, sortOrder, currentFilter, searchString, page);
             return View(viewList);
         }
+
+        private async Task<RequestTransactionViewsList> index(string id, string sortOrder, string currentFilter, string searchString,
+            int? page) {
+            paginate(id, sortOrder, currentFilter, searchString, page);
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach (var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+            if (id == null) id = accIds.FirstOrDefault() ?? "Unspecified";
+            var bankAccount = await accounts.GetObject(id);
+            ViewBag.BankAccountID = bankAccount.Data.ID;
+            var l = await requests.LoadSentRequestsForAccount(id);
+            var viewList = new RequestTransactionViewsList(l);
+            await loadSenderAndReceiver(viewList);
+            return viewList;
+        }
+
         private void paginate(string id, string sortOrder, string currentFilter, string searchString,
             int? page) {
             ViewData["CurrentSort"] = sortOrder;
@@ -99,7 +109,13 @@ namespace Open.Sentry.Controllers
             return x => x.ValidFrom;
         }
 
-        public IActionResult Create(string receiverId) {
+        public async Task<IActionResult> Create(string receiverId) {
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach (var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+            if (receiverId == null) receiverId = accIds.FirstOrDefault() ?? "Unspecified";
             return View(TransactionViewFactory.Create(
                 TransactionFactory.CreateRequest(null, 0, "", "", receiverId,
                     TransactionStatus.Pending, DateTime.Now)));

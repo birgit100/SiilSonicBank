@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +48,13 @@ namespace Open.Sentry.Controllers {
             ViewData["CurrentFilter"] = searchString;
             transactions.SearchString = searchString;
             transactions.PageIndex = page ?? 1;
+
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach(var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+            if (id == null) id = accIds.FirstOrDefault() ?? "Unspecified";
             BankAccount = await accounts.GetObject(id);
 
             var l = await transactions.LoadTransactionsForAccount(id);
@@ -91,8 +100,14 @@ namespace Open.Sentry.Controllers {
             return x => x.ValidFrom;
         }
 
-        public IActionResult Create(string senderId){        
-                     return View(TransactionViewFactory.Create(
+        public async Task<IActionResult> Create(string senderId){
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach (var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+            if (senderId == null) senderId = accIds.FirstOrDefault() ?? "Unspecified";
+            return View(TransactionViewFactory.Create(
                          TransactionFactory.CreateTransaction(null, 0, "", senderId, "", DateTime.Now)));
                  }
         

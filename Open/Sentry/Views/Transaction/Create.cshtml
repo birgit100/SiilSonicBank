@@ -10,8 +10,7 @@
 <body>
 @Html.HiddenFor(x => x.ID)
 @Html.ViewingControlsFor(x => x.ValidFrom)
-@Html.ViewingControlsCustomLabelFor(x => x.SenderAccountId, "Sender Account Number")
-@Html.HiddenFor(x => x.SenderAccountId)
+@Html.DropDownEditingControlsForListWithCustomLabel(x => x.SenderAccountId, new SelectList(ViewBag.Accounts as IEnumerable<string>), "Sender account number")
 @Html.EditingControlsFor(x => x.ReceiverAccountId)
 @Html.EditingControlsForDecimal(x => x.AmountInStringFormat)
 @Html.EditingControlsFor(x => x.Explanation)

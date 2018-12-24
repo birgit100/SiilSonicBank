@@ -8,18 +8,17 @@
 }
 
 <body>
-@Html.HiddenFor(x => x.ID)
-@Html.ViewingControlsFor(x => x.ValidFrom)
-@Html.ViewingControlsFor(x => x.ReceiverAccountId)
-@Html.HiddenFor(x => x.ReceiverAccountId)
-@Html.EditingControlsFor(x => x.SenderAccountId)
-@Html.EditingControlsForDecimal(x => x.AmountInStringFormat)
-@Html.EditingControlsFor(x => x.Explanation)
+    @Html.HiddenFor(x => x.ID)
+    @Html.ViewingControlsFor(x => x.ValidFrom)
+    @Html.DropDownEditingControlsForList(x => x.ReceiverAccountId, new SelectList(ViewBag.Accounts as IEnumerable<string>))
+    @Html.EditingControlsFor(x => x.SenderAccountId)
+    @Html.EditingControlsForDecimal(x => x.AmountInStringFormat)
+    @Html.EditingControlsFor(x => x.Explanation)
 
-@section Actions{
-    <a class="btn btn-primary btn-sm"
-       href="@Url.Action("Index", "Transaction", new { id = Model.ReceiverAccountId })">
-        Back to transactions &raquo;
-    </a>
-}
+    @section Actions{
+        <a class="btn btn-primary btn-sm"
+           href="@Url.Action("Index", "Transaction", new { id = Model.ReceiverAccountId })">
+            Back to transactions &raquo;
+        </a>
+    }
 </body>

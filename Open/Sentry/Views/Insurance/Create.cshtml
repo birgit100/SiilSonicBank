@@ -1,3 +1,4 @@
+@using System.Collections
 @using Open.Core
 @using Open.Sentry.Extensions
 @model Open.Facade.Bank.InsuranceView
@@ -8,15 +9,17 @@
      ViewBag.Button = "Make";
  }
 <body>
-@Html.HiddenFor(x => x.ID)
-@Html.EditingControlsFor(x => x.ValidFrom)
-@Html.EditingControlsFor(x => x.ValidTo)
-@Html.ViewingControlsCustomLabelFor(x => x.AccountId, "Account number")
-@Html.EditingControlsForDecimal(x => x.PaymentInStringFormat)
-@Html.DropDownListFor(x => x.Type, Html.GetEnumSelectList<InsuranceType>(), new { @class = "form-control"  })
-    
-@section Actions{    
+    @Html.HiddenFor(x => x.ID)
+    @Html.EditingControlsFor(x => x.ValidFrom)
+    @Html.EditingControlsFor(x => x.ValidTo)
+    @Html.DropDownEditingControlsForList(x => x.AccountId, new SelectList(ViewBag.Accounts as IEnumerable<string>))
+    @Html.EditingControlsForDecimal(x => x.PaymentInStringFormat)
+    @Html.DropDownEditingControlsForList(x => x.Type, new SelectList(ViewBag.InsuranceTypes as IEnumerable<InsuranceType>))
+
+@section Actions{
     <a class="btn btn-primary btn-sm"
-       href="@Url.Action("Index", "Insurance")">Back to your insurances &raquo;
+       href="@Url.Action("Index", "Insurance")">
+        Back to your insurances &raquo;
     </a>}
+
 </body>

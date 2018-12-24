@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -63,8 +64,15 @@ namespace Open.Sentry.Controllers
             return View(insurancesViewsList);
         }
        
-       public IActionResult Create(string accountId){        
-           return View(InsuranceViewFactory.Create(
+       public async Task<IActionResult> Create(string accountId){
+           var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+           var accIds = new List<string>();
+           var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+           foreach (var acc in accs) accIds.Add(acc.Data.ID);
+           ViewBag.Accounts = accIds;
+           ViewBag.InsuranceTypes = Enum.GetValues(typeof(InsuranceType)).Cast<InsuranceType>();
+            if (accountId == null) accountId = accIds.FirstOrDefault() ?? "Unspecified";
+            return View(InsuranceViewFactory.Create(
                InsuranceFactory.CreateInsurance(null, null, "", "", accountId)));
        }
 
@@ -80,7 +88,7 @@ namespace Open.Sentry.Controllers
                model.ID = Guid.NewGuid().ToString();
                var insurance = InsuranceViewFactory.Create(model);
                insurance.Data.Payment = model.Payment;
-               insurance.Data.Type = Enum.GetName(typeof(InsuranceType), int.Parse(model.Type));
+               insurance.Data.Type = model.Type;
                insurance.Data.ValidFrom = model.ValidFrom ?? DateTime.MinValue;
                insurance.Data.ValidTo = model.ValidTo ?? DateTime.MaxValue;
                insurance.Data.AccountId = model.AccountId;

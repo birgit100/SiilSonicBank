@@ -7,6 +7,15 @@
 }
 
 @section Create {
+    <div class="form-group">
+        <div class="control-label col-md-4" , style="font-weight: bold">Select Account</div>
+        <div class="col-md-4">
+            @using (Html.BeginForm("SentIndex", "RequestTransaction"))
+            {
+                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", onchange = "this.form.submit();" })
+            }
+        </div>
+    </div>
     <a class="btn btn-primary btn-sm"
        href="@Url.Action("ReceivedIndex", "RequestTransaction", new { id = ViewBag.BankAccountID })">
         Received requests &raquo;
@@ -18,35 +27,36 @@
 }
 
 <body>
-<table class="table">
-    @{ var transaction = Model.FirstOrDefault();}
-    <thead>
-    <tr>
-        @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"])
-        @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"])
-        @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
-        @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
-        @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"])
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
-            <td>
-                <b>
-                    @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
-                </b><br />
-                @Html.DisplayFor(modelItem => item.SenderAccountId)
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
-            <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-            <td>
-                <b>@Html.DisplayFor(modelItem => item.Status)</b>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        @{ var transaction = Model.FirstOrDefault();}
+        <thead>
+            <tr>
+                @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"])
+                @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"])
+                @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
+                @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
+                @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"])
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                    <td>
+                        <b>
+                            @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
+                        </b><br />
+                        @Html.DisplayFor(modelItem => item.SenderAccountId)
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.Status)</b>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </body>

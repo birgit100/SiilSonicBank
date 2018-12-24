@@ -111,6 +111,34 @@ namespace Open.Sentry.Extensions {
 
             return new HtmlContentBuilder(htmlStrings);
         }
+        public static IHtmlContent DropDownEditingControlsForList<TModel, TResult>(
+            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, SelectList selectList)
+        {
+            var htmlStrings = new List<object> {
+                new HtmlString("<div class=\"form-group\">"),
+                htmlHelper.LabelFor(expression, new { @class = "control-label col-md-4", style = "font-weight: bold" }),
+                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control col-md-4" }),
+                htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
+                new HtmlString("</div>"),
+            };
+
+            return new HtmlContentBuilder(htmlStrings);
+        }
+
+        public static IHtmlContent DropDownEditingControlsForListWithCustomLabel<TModel, TResult>(
+            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, SelectList selectList, string label)
+        {
+            var htmlStrings = new List<object> {
+                new HtmlString("<div class=\"form-group\">"),
+                htmlHelper.Label(expression.ToString(), label,
+                    new { @class = "control-label col-md-4", style = "font-weight: bold" }),
+                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control col-md-4" }),
+                htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
+                new HtmlString("</div>"),
+            };
+
+            return new HtmlContentBuilder(htmlStrings);
+        }
 
         public static IHtmlContent EditingControlsForDecimal<TModel, TResult>(
             this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression) {

@@ -58,6 +58,7 @@ namespace Open.Facade.Bank
         }
 
         [Required]
+        [DisplayName("Bank account number")]
         public string AccountId {
             get => getString(ref accountId);
             set => accountId = value;
