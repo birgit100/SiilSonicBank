@@ -33,18 +33,24 @@ namespace Open.Sentry.Controllers
         public async Task<IActionResult> SentIndex(string id, string sortOrder = null,
             string currentFilter = null,
             string searchString = null, int? page = null) {
-            var viewList = await index(id, sortOrder, currentFilter, searchString, page);
+            id = await index(id, sortOrder, currentFilter, searchString, page);
+            var l = await requests.LoadSentRequestsForAccount(id);
+            var viewList = new RequestTransactionViewsList(l);
+            await loadSenderAndReceiver(viewList);
             return View(viewList);
         }
         public async Task<IActionResult> ReceivedIndex(string id, string sortOrder = null,
             string currentFilter = null,
             string searchString = null, int? page = null)
         {
-            var viewList = await index(id, sortOrder, currentFilter, searchString, page);
+            id = await index(id, sortOrder, currentFilter, searchString, page);
+            var l = await requests.LoadReceivedRequestsForAccount(id);
+            var viewList = new RequestTransactionViewsList(l);
+            await loadSenderAndReceiver(viewList);
             return View(viewList);
         }
 
-        private async Task<RequestTransactionViewsList> index(string id, string sortOrder, string currentFilter, string searchString,
+        private async Task<string> index(string id, string sortOrder, string currentFilter, string searchString,
             int? page) {
             paginate(id, sortOrder, currentFilter, searchString, page);
             var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
@@ -55,10 +61,7 @@ namespace Open.Sentry.Controllers
             if (id == null) id = accIds.FirstOrDefault() ?? "Unspecified";
             var bankAccount = await accounts.GetObject(id);
             ViewBag.BankAccountID = bankAccount.Data.ID;
-            var l = await requests.LoadSentRequestsForAccount(id);
-            var viewList = new RequestTransactionViewsList(l);
-            await loadSenderAndReceiver(viewList);
-            return viewList;
+            return id;
         }
 
         private void paginate(string id, string sortOrder, string currentFilter, string searchString,

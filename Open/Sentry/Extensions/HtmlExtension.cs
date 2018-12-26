@@ -63,9 +63,9 @@ namespace Open.Sentry.Extensions {
         }
 
         public static IHtmlContent SortColumnHeaderFor<TModel, TResult>(
-            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, object sortString) {
+            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, object sortString, string act = "Index") {
             var linkName = htmlHelper.DisplayNameFor(expression);
-            var action = "Index";
+            var action = act;
             var htmlStrings = new List<object> {
                 new HtmlString("<th>"),
                 htmlHelper.ActionLink(linkName, action, new { SortOrder = sortString }),
@@ -74,7 +74,6 @@ namespace Open.Sentry.Extensions {
 
             return new HtmlContentBuilder(htmlStrings);
         }
-
         public static IHtmlContent EditDetailDeleteFor<TModel, TResult>(
             this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression) {
             var edit = "Edit";

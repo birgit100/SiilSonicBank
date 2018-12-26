@@ -17,7 +17,7 @@
     @Html.DropDownEditingControlsForList(x => x.Type, new SelectList(ViewBag.InsuranceTypes as IEnumerable<InsuranceType>))
 
 @section Actions{
-    <a class="btn btn-primary btn-sm"
+    <a
        href="@Url.Action("Index", "Insurance")">
         Back to your insurances &raquo;
     </a>}

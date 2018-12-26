@@ -28,11 +28,11 @@
         @{ var transaction = Model.FirstOrDefault();}
         <thead>
             <tr>
-                @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"])
-                @Html.SortColumnHeaderFor(x => transaction.ReceiverAccountId, ViewData["SortReceiverAccount"])
-                @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
-                @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
-                @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"])
+                @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"], "ReceivedIndex")
+                @Html.SortColumnHeaderFor(x => transaction.ReceiverAccountId, ViewData["SortReceiverAccount"], "ReceivedIndex")
+                @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"], "ReceivedIndex")
+                @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"], "ReceivedIndex")
+                @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"], "ReceivedIndex")
                 <th></th>
             </tr>
         </thead>

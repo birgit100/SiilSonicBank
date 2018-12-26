@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace Open.Sentry.Controllers {
         }
 
         public IActionResult Create() {
+            ViewBag.Types = Enum.GetValues(typeof(CardType)).Cast<CardType>();
             return View();
         }
 

@@ -1,4 +1,5 @@
 ﻿@using Open.Core
+@using Open.Sentry.Extensions
 @model Open.Facade.Bank.AccountView
 
 @{
@@ -15,7 +16,7 @@
 @Html.HiddenFor(x => x.AspNetUserId)
 @Html.HiddenFor(x => x.ValidFrom)
 @Html.HiddenFor(x => x.ValidTo)
-@Html.DropDownListFor(x => x.Type, Html.GetEnumSelectList<CardType>(), new { @class = "form-control" })
+@Html.DropDownEditingControlsForList(x => x.Type, new SelectList(ViewBag.Types as IEnumerable<CardType>))
 </body>
 
 @section Actions{@Html.ActionLink("Back", "Index", "Home")}

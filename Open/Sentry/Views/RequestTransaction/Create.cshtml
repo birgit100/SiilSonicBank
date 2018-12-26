@@ -16,9 +16,9 @@
     @Html.EditingControlsFor(x => x.Explanation)
 
     @section Actions{
-        <a class="btn btn-primary btn-sm"
-           href="@Url.Action("Index", "Transaction", new { id = Model.ReceiverAccountId })">
-            Back to transactions &raquo;
+        <a
+           href="@Url.Action("SentIndex", "RequestTransaction", new { id = Model.ReceiverAccountId })">
+            Back to sent requests &raquo;
         </a>
     }
 </body>

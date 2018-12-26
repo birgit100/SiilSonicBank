@@ -35,7 +35,8 @@
         .customButton:hover { color: lightgrey; }
 
         body {
-            padding-top: 50px; 
+            padding-top: 50px;
+            min-width: 560px;
         }
     </style>
 </head>
@@ -73,8 +74,8 @@
                         </button>
                         <div class="dropdown-container">
                             <ul class="dropdown-menu">
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Transaction")">Your transactions</a></li>
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Transaction")">New transaction</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Transaction")">New transaction</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Transaction")">Your transactions</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,9 +86,9 @@
                         </button>
                         <div class="dropdown-container">
                             <ul class="dropdown-menu">
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("SentIndex", "RequestTransaction")">Sent requests</a></li>
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("ReceivedIndex", "RequestTransaction")">Received requests</a></li>
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "RequestTransaction")">New request</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "RequestTransaction")">New request</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("SentIndex", "RequestTransaction")">Sent requests</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("ReceivedIndex", "RequestTransaction")">Received requests</a></li>
                             </ul>
                         </div>
                     </div>
@@ -98,8 +99,8 @@
                         </button>
                         <div class="dropdown-container">
                             <ul class="dropdown-menu">
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Insurance")">Your Insurances</a></li>
-                                <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Insurance")">New Insurance</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Insurance")">New Insurance</a></li>
+                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Insurance")">Your Insurances</a></li>
                             </ul>
                         </div>
                     </div>
