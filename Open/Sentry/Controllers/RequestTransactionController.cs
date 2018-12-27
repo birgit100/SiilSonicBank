@@ -33,7 +33,19 @@ namespace Open.Sentry.Controllers
         public async Task<IActionResult> SentIndex(string id, string sortOrder = null,
             string currentFilter = null,
             string searchString = null, int? page = null) {
-            id = await index(id, sortOrder, currentFilter, searchString, page);
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach (var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+            if (id == null)
+            {
+                id = accIds.FirstOrDefault() ?? "Unspecified";
+                return RedirectToActionPermanent("SentIndex", new { id });
+            }
+            paginate(id, sortOrder, currentFilter, searchString, page);
+            var bankAccount = await accounts.GetObject(id);
+            ViewBag.BankAccountID = bankAccount.Data.ID;
             var l = await requests.LoadSentRequestsForAccount(id);
             var viewList = new RequestTransactionViewsList(l);
             await loadSenderAndReceiver(viewList);
@@ -43,25 +55,23 @@ namespace Open.Sentry.Controllers
             string currentFilter = null,
             string searchString = null, int? page = null)
         {
-            id = await index(id, sortOrder, currentFilter, searchString, page);
-            var l = await requests.LoadReceivedRequestsForAccount(id);
-            var viewList = new RequestTransactionViewsList(l);
-            await loadSenderAndReceiver(viewList);
-            return View(viewList);
-        }
-
-        private async Task<string> index(string id, string sortOrder, string currentFilter, string searchString,
-            int? page) {
-            paginate(id, sortOrder, currentFilter, searchString, page);
             var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
             var accIds = new List<string>();
             var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
             foreach (var acc in accs) accIds.Add(acc.Data.ID);
             ViewBag.Accounts = accIds;
-            if (id == null) id = accIds.FirstOrDefault() ?? "Unspecified";
+            if (id == null)
+            {
+                id = accIds.FirstOrDefault() ?? "Unspecified";
+                return RedirectToActionPermanent("ReceivedIndex", new { id });
+            }
+            paginate(id, sortOrder, currentFilter, searchString, page);
             var bankAccount = await accounts.GetObject(id);
             ViewBag.BankAccountID = bankAccount.Data.ID;
-            return id;
+            var l = await requests.LoadReceivedRequestsForAccount(id);
+            var viewList = new RequestTransactionViewsList(l);
+            await loadSenderAndReceiver(viewList);
+            return View(viewList);
         }
 
         private void paginate(string id, string sortOrder, string currentFilter, string searchString,

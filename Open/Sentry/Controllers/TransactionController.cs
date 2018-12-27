@@ -32,16 +32,31 @@ namespace Open.Sentry.Controllers {
             userManager = uManager;
         }
 
-        public async Task<IActionResult> Index(string id, string sortOrder = null, string currentFilter = null,
-            string searchString = null, int? page = null){
+        public async Task<IActionResult> Index(string id, string sortOrder = null,
+            string currentFilter = null,
+            string searchString = null, int? page = null) {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["SortValidFrom"] = string.IsNullOrEmpty(sortOrder) ? "validFrom_desc" : "";
-            ViewData["SortSenderAccount"] = sortOrder == "senderAccount" ? "senderAccount_desc" : "senderAccount";
-            ViewData["SortExplanation"] = sortOrder == "explanation" ? "explanation_desc" : "explanation";
+            ViewData["SortSenderAccount"] =
+                sortOrder == "senderAccount" ? "senderAccount_desc" : "senderAccount";
+            ViewData["SortExplanation"] =
+                sortOrder == "explanation" ? "explanation_desc" : "explanation";
             ViewData["SortAmount"] = sortOrder == "amount" ? "amount_desc" : "amount";
             transactions.SortOrder = sortOrder != null && sortOrder.EndsWith("_desc")
                 ? SortOrder.Descending
                 : SortOrder.Ascending;
+
+            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
+            var accIds = new List<string>();
+            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
+            foreach (var acc in accs) accIds.Add(acc.Data.ID);
+            ViewBag.Accounts = accIds;
+
+            if (id == null) {
+                id = accIds.FirstOrDefault() ?? "Unspecified";
+                return RedirectToActionPermanent("Index", new { id });
+            }
+
             transactions.SortFunction = getSortFunction(sortOrder, id);
             if (searchString != null) page = 1;
             else searchString = currentFilter;
@@ -49,12 +64,7 @@ namespace Open.Sentry.Controllers {
             transactions.SearchString = searchString;
             transactions.PageIndex = page ?? 1;
 
-            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
-            var accIds = new List<string>();
-            var accs = await accounts.LoadAccountsForUser(loggedInUser.Id);
-            foreach(var acc in accs) accIds.Add(acc.Data.ID);
-            ViewBag.Accounts = accIds;
-            if (id == null) id = accIds.FirstOrDefault() ?? "Unspecified";
+
             BankAccount = await accounts.GetObject(id);
 
             var l = await transactions.LoadTransactionsForAccount(id);
