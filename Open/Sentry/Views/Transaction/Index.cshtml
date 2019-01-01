@@ -11,9 +11,9 @@
     <div class="form-group">
         <div class="control-label col-md-4" , style="font-weight: bold">Select Account</div>
         <div class="col-md-4">
-            @using (Html.BeginForm("Index", "Transaction"))
+            @using (Html.BeginForm("Index", "Transaction", FormMethod.Post))
             {
-                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", onchange = "this.form.submit();" })
+                    @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", id = "AccountID", onchange = "this.form.submit();" })
             }
         </div>
     </div>

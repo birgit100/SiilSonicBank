@@ -13,7 +13,7 @@
         <div class="col-md-4">
             @using (Html.BeginForm("ReceivedIndex", "RequestTransaction"))
             {
-                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", onchange = "this.form.submit();" })
+                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", id = "AccountID", onchange = "this.form.submit();" })
             }
         </div>
     </div>

@@ -15,7 +15,14 @@
              });
          </script>
      }
- }
+    <script>
+    $(function () {
+        $("#AccountID").on("change", function () {
+            window.location = $("#AccountID").val();
+        });
+    });
+    </script>
+}
 <p>
     @RenderSection("Create")
 </p>

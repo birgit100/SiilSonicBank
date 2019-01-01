@@ -102,7 +102,7 @@ namespace Open.Sentry.Extensions {
             var selectList = new SelectList(countryList);
             var htmlStrings = new List<object> {
                 new HtmlString("<div class=\"form-group\">"),
-                htmlHelper.LabelFor(expression, new { @class = "control-label" }),
+                htmlHelper.LabelFor(expression, new { @class = "control-label col-md-4" }),
                 htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control" }),
                 htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
                 new HtmlString("</div>"),
@@ -116,9 +116,11 @@ namespace Open.Sentry.Extensions {
             var htmlStrings = new List<object> {
                 new HtmlString("<div class=\"form-group\">"),
                 htmlHelper.LabelFor(expression, new { @class = "control-label col-md-4", style = "font-weight: bold" }),
-                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control col-md-4" }),
+                new HtmlString("<div class=\"col-md-4\">"),
+                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control" }),
                 htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
                 new HtmlString("</div>"),
+                new HtmlString("</div>")
             };
 
             return new HtmlContentBuilder(htmlStrings);
@@ -131,9 +133,11 @@ namespace Open.Sentry.Extensions {
                 new HtmlString("<div class=\"form-group\">"),
                 htmlHelper.Label(expression.ToString(), label,
                     new { @class = "control-label col-md-4", style = "font-weight: bold" }),
-                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control col-md-4" }),
+                new HtmlString("<div class=\"col-md-4\">"),
+                htmlHelper.DropDownListFor(expression, selectList, new { @class = "form-control" }),
                 htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
                 new HtmlString("</div>"),
+                new HtmlString("</div>")
             };
 
             return new HtmlContentBuilder(htmlStrings);
