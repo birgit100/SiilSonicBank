@@ -1,0 +1,21 @@
+﻿@using Open.Sentry.Extensions
+@model Open.Facade.Bank.AccountView
+
+@{
+    ViewBag.Title = "Renew";
+    ViewBag.SubTitle = Model.ID;
+    ViewBag.Button = "Renew";
+    Layout = "_EditPartial";
+}
+
+<body>
+    @Html.ViewingControlsFor(x => x.ID)
+    @Html.ViewingControlsFor(x => x.Type)
+    @Html.ViewingControlsFor(x => x.Balance)
+    @Html.EditingControlsFor(x => x.ValidTo)
+    @Html.HiddenFor(x => x.Status)
+    @Html.HiddenFor(x => x.AspNetUserId)
+    @Html.HiddenFor(x => x.ValidFrom)
+</body>
+
+@section Actions{@Html.ActionLink("Back to home page", "Index", "Home")}

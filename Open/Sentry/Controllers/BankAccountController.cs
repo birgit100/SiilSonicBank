@@ -42,7 +42,7 @@ namespace Open.Sentry.Controllers {
             await validateId(c.ID, ModelState);
             if (!ModelState.IsValid) return View(c);
             c.Balance = 500;
-            c.Status = "Active";
+            c.Status = Status.Active.ToString();
             c.Type = Enum.GetName(typeof(CardType), int.Parse(c.Type));
             var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
             c.AspNetUserId = loggedInUser.Id;
@@ -54,7 +54,34 @@ namespace Open.Sentry.Controllers {
             await createWelcomeTransaction(c.ID);
             return RedirectToAction("Index", "Home");
         }
+        public async Task<IActionResult> Renew(string id) {
+            var c = await repository.GetObject(id);
+            return View(AccountViewFactory.Create(c));
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Renew([Bind(properties)] AccountView c) {
+            var account = await repository.GetObject(c.ID);
+            account.Data.ValidTo = c.ValidTo ?? DateTime.Now.AddYears(2);
+            account.Data.Status = Status.Active.ToString();
+            await repository.UpdateObject(account);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Deactivate(string id)
+        {
+            var c = await repository.GetObject(id);
+            return View(AccountViewFactory.Create(c));
+        }
+        [HttpPost, ActionName("Deactivate")]
+        public async Task<IActionResult> DeactivateConfirmed(string id)
+        {
+            var c = await repository.GetObject(id);
+            c.Data.Status = Status.Inactive.ToString();
+            c.Data.ValidTo = DateTime.Now;
+            await repository.UpdateObject(c);
+            return RedirectToAction("Index", "Home");
+        }
         private async Task validateId(string id, ModelStateDictionary d) {
             if (await isIdInUse(id))
                 d.AddModelError(string.Empty, idIsInUseMessage(id));

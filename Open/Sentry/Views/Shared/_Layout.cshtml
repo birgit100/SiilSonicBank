@@ -31,12 +31,7 @@
     </environment>
     <style>
         .customButton { color: white; }
-
         .customButton:hover { color: lightgrey; }
-
-        body {
-            padding-top: 50px;
-        }
     </style>
 </head>
 <body>
@@ -57,50 +52,51 @@
 </div>
 
 
-<div class="container body-content" style="width:140%">
-    <div>
-        <img style="width: 100%; display: block; max-height: 200px; object-fit: cover" src="/images/bankpikalt.jpg" alt="Bank image">
-    </div>
-
+<div class="container body-content">
+<div>
+    <img style="width: 100%; display: block; max-height: 200px; object-fit: cover" src="/images/bankpikalt.jpg" alt="Bank image">
+</div>
     <div class="navbar navbar-expand-lg navbar-dark bg-primary" style="position: static;">
-        <div class="container" style="padding-left: 0">
+        <div class="container" style="padding-left: 0;">
             <div class="navbar-collapse collapse">
                 @if (SignInManager.IsSignedIn(User)) {
-                    <div class="btn-group dropdown">
-                        <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
-                            Transactions
-                            <span class="caret"></span>
-                        </button>
-                        <div class="dropdown-container">
-                            <ul class="dropdown-menu">
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Transaction")">New transaction</a></li>
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Transaction")">Your transactions</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="btn-group dropdown">
-                        <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
-                            Requests
-                            <span class="caret"></span>
-                        </button>
-                        <div class="dropdown-container">
-                            <ul class="dropdown-menu">
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "RequestTransaction")">New request</a></li>
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("SentIndex", "RequestTransaction")">Sent requests</a></li>
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("ReceivedIndex", "RequestTransaction")">Received requests</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="btn-group dropdown">
-                        <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
-                            Insurances
-                            <span class="caret"></span>
-                        </button>
-                        <div class="dropdown-container">
-                            <ul class="dropdown-menu">
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Insurance")">New Insurance</a></li>
-                                <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Insurance")">Your Insurances</a></li>
-                            </ul>
+                    <div>
+                            <div class="btn-group dropdown">
+                                <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
+                                    Transactions
+                                    <span class="caret"></span>
+                                </button>
+                                <div class="dropdown-container">
+                                    <ul class="dropdown-menu">
+                                        <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Transaction")">New transaction</a></li>
+                                        <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Transaction")">Your transactions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="btn-group dropdown">
+                                <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
+                                    Requests
+                                    <span class="caret"></span>
+                                </button>
+                                <div class="dropdown-container">
+                                    <ul class="dropdown-menu">
+                                        <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "RequestTransaction")">New request</a></li>
+                                        <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("SentIndex", "RequestTransaction")">Sent requests</a></li>
+                                        <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("ReceivedIndex", "RequestTransaction")">Received requests</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn customButton navbar-brand dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:transparent" aria-haspopup="true" aria-expanded="true">
+                                Insurances
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-container">
+                                <ul class="dropdown-menu">
+                                    <li style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);"><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Create", "Insurance")">New Insurance</a></li>
+                                    <li><a class="btn btn-link navbar-btn navbar-link" href="@Url.Action("Index", "Insurance")">Your Insurances</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 }

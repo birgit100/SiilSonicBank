@@ -24,49 +24,49 @@
 }
 
 <body>
+<div style="overflow-x:auto;">
     <table class="table">
         @{ var transaction = Model.FirstOrDefault();}
         <thead>
-            <tr>
-                @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"], "ReceivedIndex")
-                @Html.SortColumnHeaderFor(x => transaction.ReceiverAccountId, ViewData["SortReceiverAccount"], "ReceivedIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"], "ReceivedIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"], "ReceivedIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"], "ReceivedIndex")
-                <th></th>
-            </tr>
+        <tr>
+            @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"], "ReceivedIndex")
+            @Html.SortColumnHeaderFor(x => transaction.ReceiverAccountId, ViewData["SortReceiverAccount"], "ReceivedIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"], "ReceivedIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"], "ReceivedIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"], "ReceivedIndex")
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
-                    <td>
-                        <b>
-                            @Html.DisplayFor(modelItem => item.ReceiverAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.ReceiverAccount.AspNetUser.LastName)
-                        </b><br />
-                        @Html.DisplayFor(modelItem => item.ReceiverAccountId)
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                    <td>
-                        <b>@Html.DisplayFor(modelItem => item.Status)</b>
-                    </td>
-                    <td>
-                        @if (item.Status == TransactionStatus.Pending)
-                        {
-                            <a class="btn btn-primary btn-sm"
-                               href="@Url.Action("ConfirmRequest", "RequestTransaction", new {id = item.ID})">
-                                Confirm &raquo;
-                            </a>
-                            <a class="btn btn-primary btn-sm"
-                               href="@Url.Action("DenyRequest", "RequestTransaction", new {id = item.ID})">
-                                Deny &raquo;
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                <td>
+                    <b>
+                        @Html.DisplayFor(modelItem => item.ReceiverAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.ReceiverAccount.AspNetUser.LastName)
+                    </b><br/>
+                    @Html.DisplayFor(modelItem => item.ReceiverAccountId)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => item.Status)</b>
+                </td>
+                <td>
+                    @if (item.Status == TransactionStatus.Pending) {
+                        <a class="btn btn-primary btn-sm"
+                           href="@Url.Action("ConfirmRequest", "RequestTransaction", new {id = item.ID})">
+                            Confirm &raquo;
+                        </a>
+                        <a class="btn btn-primary btn-sm"
+                           href="@Url.Action("DenyRequest", "RequestTransaction", new {id = item.ID})">
+                            Deny &raquo;
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
+</div>
 </body>

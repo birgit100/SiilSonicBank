@@ -1,0 +1,22 @@
+﻿@using Open.Sentry.Extensions
+@model Open.Facade.Bank.AccountView
+
+@{
+    ViewBag.Title = "Deactivate";
+    ViewBag.SubTitle = Model.ID;
+    ViewBag.Button = "Deactivate";
+    Layout = "_EditPartial";
+}
+
+<body>
+    @Html.ViewingControlsFor(x => x.ID)
+    @Html.ViewingControlsFor(x => x.Type)
+    @Html.ViewingControlsFor(x => x.Balance)
+    @Html.ViewingControlsFor(x => x.ValidFrom)
+    @Html.ViewingControlsFor(x => x.ValidTo)
+</body>
+
+@section Actions{
+    @Html.ActionLink("Back to home page", "Index", "Home")
+}
+

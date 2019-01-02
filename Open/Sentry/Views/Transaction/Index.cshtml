@@ -1,9 +1,10 @@
+@using Open.Core
 @using Open.Sentry.Extensions
 @using Open.Sentry.Controllers
 @model Open.Core.IPaginatedList<Open.Facade.Bank.TransactionView>
 
 @{
-    ViewBag.Title = "Transactions for " + TransactionController.BankAccount.Data?.ID;
+    ViewBag.Title = "Transactions for " + TransactionController.BankAccount.Data?.ID + (TransactionController.BankAccount.Data?.Status == Status.Inactive.ToString() ? "(Inactive)" : "");
     Layout = "_IndexPartial";
 }
 
@@ -13,14 +14,16 @@
         <div class="col-md-4">
             @using (Html.BeginForm("Index", "Transaction", FormMethod.Post))
             {
-                    @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", id = "AccountID", onchange = "this.form.submit();" })
+                @Html.DropDownList("id", new SelectList(ViewBag.Accounts as IEnumerable<string>), new { @class = "form-control", id = "AccountID", onchange = "this.form.submit();" })
             }
         </div>
     </div>
-    <a class="btn btn-primary btn-sm"
-       href="@Url.Action("Create", "Transaction", new { senderId = TransactionController.BankAccount.Data?.ID })">
-        New transaction &raquo;
-    </a>
+    @if (TransactionController.BankAccount.Data?.Status == "Active") {
+        <a class="btn btn-primary btn-sm"
+           href="@Url.Action("Create", "Transaction", new {senderId = TransactionController.BankAccount.Data?.ID})">
+            New transaction &raquo;
+        </a>
+    }
     <a class="btn btn-primary btn-sm"
        href="@Url.Action("ReceivedIndex", "RequestTransaction", new { id = TransactionController.BankAccount.Data?.ID })">
         Received requests &raquo;
@@ -32,61 +35,69 @@
 }
 
 <body>
-<table class="table">
-    @{ var transaction = Model.FirstOrDefault();}
-    <thead>
-    <tr>
-        @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"])
-        @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"])
-        @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
-        @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="transTable">
-    @foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
-            <td>
-                <b>
-                    @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
-                </b><br />
-                @Html.DisplayFor(modelItem => item.SenderAccountId)
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
-            <td>
-                @if (item.Amount > 0) {
-                    <span style="color: green;">@item.Amount</span>
-                } else {
-                    <span style="color: red;">@item.Amount</span>
+    <div style="overflow-x:auto;">
+        <table class="table">
+            @{ var transaction = Model.FirstOrDefault();}
+            <thead>
+                <tr>
+                    @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"])
+                    @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"])
+                    @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"])
+                    @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"])
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="transTable">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                        <td>
+                            <b>
+                                @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
+                            </b><br />
+                            @Html.DisplayFor(modelItem => item.SenderAccountId)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
+                        <td>
+                            @if (item.Amount > 0)
+                            {
+                                <span style="color: green;">@item.Amount</span>
+                            }
+                            else
+                            {
+                                <span style="color: red;">@item.Amount</span>
+                            }
+                        </td>
+                        <td>
+                            @if (TransactionController.BankAccount.Data?.Status == "Active") {
+                                <a class="btn btn-primary btn-sm"
+                                   href="@Url.Action("CreateWithReceiver", "Transaction", new {senderId = TransactionController.BankAccount.Data?.ID, receiverId = item.SenderAccountId})">
+                                    Make transaction &raquo;
+                                </a>
+                            }
+                        </td>
+                    </tr>
                 }
-            </td>
-            <td>Details</td>
-            <td>
-                <a class="btn btn-primary btn-sm"
-                   href="@Url.Action("CreateWithReceiver", "Transaction", new { senderId = TransactionController.BankAccount.Data?.ID, receiverId = item.SenderAccountId })">
-                    Make transaction &raquo;
-                </a>
-            </td>
-        </tr>
-    }
-    <tr>
-        <td></td>
-        <td></td>
-        <td>
-            <b>@Html.Label("Balance"): </b>
-        </td>
-        <td>
-            @if (TransactionController.BankAccount.Data?.Balance > 0) {
-                <span style="color: green; font-weight: bold">@TransactionController.BankAccount.Data?.Balance</span>
-            } else {
-                <span style="color: red; font-weight: bold">@TransactionController.BankAccount.Data?.Balance</span>
-            }
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
-    </tbody>
-</table>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <b>@Html.Label("Balance"): </b>
+                    </td>
+                    <td>
+                        @if (TransactionController.BankAccount.Data?.Balance > 0)
+                        {
+                            <span style="color: green; font-weight: bold">@TransactionController.BankAccount.Data?.Balance</span>
+                        }
+                        else
+                        {
+                            <span style="color: red; font-weight: bold">@TransactionController.BankAccount.Data?.Balance</span>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>

@@ -1,5 +1,5 @@
-﻿@using Open.Data.Bank
-@using Open.Sentry.Controllers
+﻿@using Open.Core
+@using Open.Data.Bank
 @using Open.Sentry.Extensions
 @inject SignInManager<ApplicationUser> SignInManager
 @model Open.Core.IPaginatedList<Open.Facade.Bank.AccountView>
@@ -7,11 +7,29 @@
 @{
     ViewData["Title"] = "SonicBank";
 }
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .collapsible {
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
 
-@*<div class="jumbotron">
-    <h1>@ViewData["Title"]</h1>
-    <img style="width: 100%; display: block;" src="/images/bankpikalt.jpg" alt="Bank image">
-</div>*@
+        .active, .collapsible:hover { background-color: #9cd7db; }
+
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
 
 <div class="row">
     @if (!SignInManager.IsSignedIn(User) || Model == null) {
@@ -19,7 +37,8 @@
             <h2>Welcome to SonicBank!</h2>
             <h3>Please log in to use our services!</h3>
         </div>
-    } else {
+    }
+    else {
         <div class="col-md-12">
             <h2>Welcome, @User.GetFirstName()!</h2>
             @if (Model.Count == 0) {
@@ -27,64 +46,84 @@
                    href="@Url.Action("Create", "BankAccount")">
                     Create your first account &raquo;
                 </a>
-            } else {
+            }
+            else {
                 <div>
                     <a class="btn btn-outline-danger btn-sm" style="font-weight: bold"
                        href="@Url.Action("Create", "BankAccount")">
                         Create new account &raquo;
                     </a>
-                    @*<a class="btn btn-primary btn-sm"
-                       href="@Url.Action("Index", "Insurance")">
-                        Your insurances &raquo;
-                    </a>*@
                 </div>
-                <table class ="table">
-                    <thead>
-                    <tr>
-                        <th>Account Number</th>
-                        <th>Type</th>
-                        <th>Balance</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody id="accTable">
-                    @foreach (var item in Model) {
+                <div style="overflow-x:auto;">
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>
-                                <a href="@Url.Action("Index", "Transaction", new {id = item.ID})" style="font-weight: bold">
-                                    @Html.DisplayFor(modelItem => item.ID)
-                                </a>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Balance)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                            @*<td>
-                                <a class="btn btn-primary btn-sm btn-block"
-                                   href="@Url.Action("Index", "Transaction", new { id = item.ID })">
-                                    Transactions &raquo;
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-sm btn-block"
-                                   href="@Url.Action("Create", "Transaction", new { senderId = item.ID })">
-                                    New transaction &raquo;
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-sm btn-block"
-                                   href="@Url.Action("Create", "RequestTransaction", new { receiverId = item.ID })">
-                                    New request &raquo;
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-sm btn-block"
-                                   href="@Url.Action("Create", "Insurance", new { accountId = item.ID })">
-                                    New insurance &raquo;
-                                </a>
-                            </td>*@
+                            <th>Account Number</th>
+                            <th>Type</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th>Valid To</th>
                         </tr>
+                        </thead>
+                        <tbody id="accTable">
+                        @foreach (var item in Model) {
+                            <tr class="collapsible">
+                                <td>
+                                    <a href="@Url.Action("Index", "Transaction", new {id = item.ID})" style="font-weight: bold">
+                                        @Html.DisplayFor(modelItem => item.ID)
+                                    </a>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Balance)</td>
+                                <td>
+                                    @if (item.Status.Contains("expires")) {
+                                        <span style="color: red;">@item.Status</span>
+                                    }
+                                    else {
+                                        <span>@item.Status</span>
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.ValidTo)</td>
+
+                            </tr>
+                            <tr class="content">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm"
+                                       href="@Url.Action("Renew", "BankAccount", new {id = item.ID})">
+                                        Renew &raquo;
+                                    </a>
+                                    @if (item.Status.Contains(Status.Active.ToString())) {
+                                        <a class="btn btn-primary btn-sm"
+                                           href="@Url.Action("Deactivate", "BankAccount", new {id = item.ID})">
+                                            Deactivate &raquo;
+                                        </a>
+                                    }
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <script>
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                        coll[i].addEventListener("click",
+                            function() {
+                                this.classList.toggle("active");
+                                var content = this.nextElementSibling;
+                                if (content.style.display === "table-row") {
+                                    content.style.display = "none";
+                                } else {
+                                    content.style.display = "table-row";
+                                }
+                            });
                     }
-                </table>
+                </script>
             }
         </div>
     }

@@ -27,36 +27,38 @@
 }
 
 <body>
+<div style="overflow-x:auto;">
     <table class="table">
         @{ var transaction = Model.FirstOrDefault();}
         <thead>
-            <tr>
-                @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"], "SentIndex")
-                @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"], "SentIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"], "SentIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"], "SentIndex")
-                @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"], "SentIndex")
-                <th></th>
-            </tr>
+        <tr>
+            @Html.SortColumnHeaderFor(x => transaction.ValidFrom, ViewData["SortValidFrom"], "SentIndex")
+            @Html.SortColumnHeaderFor(x => transaction.SenderAccountId, ViewData["SortSenderAccount"], "SentIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Explanation, ViewData["SortExplanation"], "SentIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Amount, ViewData["SortAmount"], "SentIndex")
+            @Html.SortColumnHeaderFor(x => transaction.Status, ViewData["SortStatus"], "SentIndex")
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
-                    <td>
-                        <b>
-                            @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
-                        </b><br />
-                        @Html.DisplayFor(modelItem => item.SenderAccountId)
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                    <td>
-                        <b>@Html.DisplayFor(modelItem => item.Status)</b>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                <td>
+                    <b>
+                        @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
+                    </b><br/>
+                    @Html.DisplayFor(modelItem => item.SenderAccountId)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td>
+                    <b>@Html.DisplayFor(modelItem => item.Status)</b>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
+</div>
 </body>
+

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGeneration;
 using Open.Core;
 using Open.Data.Bank;
 using Open.Domain.Bank;
@@ -92,7 +91,7 @@ namespace Open.Sentry.Controllers
                insurance.Data.ValidFrom = model.ValidFrom ?? DateTime.MinValue;
                insurance.Data.ValidTo = model.ValidTo ?? DateTime.MaxValue;
                insurance.Data.AccountId = model.AccountId;
-               insurance.Data.Status = "Active";
+               insurance.Data.Status = Status.Active.ToString();
 
                accountObject.Data.Balance = accountObject.Data.Balance - model.Payment;
 
