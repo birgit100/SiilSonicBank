@@ -101,7 +101,9 @@
     <Compile Include="Quantity\NationalCurrency.cs" />
     <Compile Include="Quantity\NationalCurrencyFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Bank\Docs\ClassDiagram.cd" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aids\Aids.csproj">
       <Project>{10694a63-1ad2-49ad-9085-70748d4d5ce6}</Project>

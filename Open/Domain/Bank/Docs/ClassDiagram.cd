@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Open.Domain.Bank.Account">
+    <Position X="3.75" Y="4.75" Width="1.75" />
+    <AssociationLine Name="ApplicationUser" Type="Open.Data.Bank.ApplicationUser" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.312" Y="4.75" />
+        <Point X="5.312" Y="2.846" />
+        <Point X="6.5" Y="2.846" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bank\Account.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="ApplicationUser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Open.Domain.Bank.BaseTransaction&lt;T&gt;">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bank\BaseTransaction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="ReceiverAccount" />
+      <Field Name="SenderAccount" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Open.Domain.Bank.Insurance">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Bank\Insurance.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Account" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Open.Domain.Bank.RequestTransaction">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bank\RequestTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Notification.NewInsuranceNotification">
+    <Position X="3.75" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Notification\NewInsuranceNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Notification.NewRequestTransactionNotification">
+    <Position X="6.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Notification\NewRequestTransactionNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Notification.NewTransactionNotification">
+    <Position X="0.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Notification\NewTransactionNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Notification.Notification&lt;T&gt;">
+    <Position X="3.75" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Notification\Notification.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Receiver" />
+      <Field Name="Sender" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Open.Domain.Notification.RequestStatusNotification">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="Open.Domain.Notification.Notification&lt;T&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="5.5" Y="6.875" />
+        <Point X="5.875" Y="6.875" />
+        <Point X="5.875" Y="6.116" />
+        <Point X="6.5" Y="6.116" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Notification\RequestStatusNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Notification.WelcomeNotification">
+    <Position X="6.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Notification\WelcomeNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Party.Address&lt;T&gt;">
+    <Position X="0.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Party\Address.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Open.Domain.Party.Country" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Party\Country.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Open.Domain.Party.GeographicAddress">
+    <Position X="3.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAIBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Party\GeographicAddress.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Country" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Open.Data.Bank.ApplicationUser" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Open.Domain.Bank.Transaction">
+    <Position X="0.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bank\Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
