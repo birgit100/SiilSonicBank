@@ -4,24 +4,21 @@ using Open.Core;
 namespace Open.Tests.Core
 {
     [TestClass]
-    public class StatusTests : ClassTests<TransactionStatus>
+    public class StatusTests : ClassTests<Status>
     {
         [TestMethod]
         public void CountTest()
         {
-            Assert.AreEqual(3, GetEnum.Count<TransactionStatus>());
+            Assert.AreEqual(2, GetEnum.Count<Status>());
         }
 
         [TestMethod]
-        public void PendingTest() =>
-            Assert.AreEqual(0, (int)TransactionStatus.Pending);
+        public void ActiveTest() =>
+            Assert.AreEqual(0, (int)Status.Active);
 
         [TestMethod]
-        public void DeniedTest() =>
-            Assert.AreEqual(1, (int)TransactionStatus.Denied);
-        [TestMethod]
-        public void ConfirmedTest() =>
-            Assert.AreEqual(2, (int)TransactionStatus.Confirmed);
+        public void InactiveTest() =>
+            Assert.AreEqual(1, (int)Status.Inactive);
     }
 }
 
