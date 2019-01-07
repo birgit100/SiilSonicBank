@@ -70,7 +70,7 @@
                             }
                         </td>
                         <td>
-                            @if (TransactionController.BankAccount.Data?.Status == "Active") {
+                            @if (TransactionController.BankAccount.Data?.Status == "Active" && item.SenderAccountId != "systemAccount") {
                                 <a class="btn btn-primary btn-sm"
                                    href="@Url.Action("CreateWithReceiver", "Transaction", new {senderId = TransactionController.BankAccount.Data?.ID, receiverId = item.SenderAccountId})">
                                     Make transaction &raquo;

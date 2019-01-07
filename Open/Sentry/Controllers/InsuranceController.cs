@@ -19,11 +19,13 @@ namespace Open.Sentry.Controllers
        private readonly IInsuranceRepository insurances;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly INotificationsRepository notifications;
+       private readonly ITransactionRepository transactions;
         internal const string properties =
             "ID, PaymentInStringFormat, Type, Status, AccountId, ValidFrom, ValidTo";
 
-        public InsuranceController(IInsuranceRepository p, IAccountsRepository a, INotificationsRepository n,
+        public InsuranceController(ITransactionRepository t, IInsuranceRepository p, IAccountsRepository a, INotificationsRepository n,
             UserManager<ApplicationUser> uManager) {
+            transactions = t;
             insurances = p;
             accounts = a;
             notifications = n;
@@ -60,9 +62,28 @@ namespace Open.Sentry.Controllers
             var insuranceList =
                 await insurances.LoadInsurancesForUser(bankAccountIds);
             var insurancesViewsList = new InsuranceViewsList(insuranceList);
+            await checkForInsuranceExpire(insurancesViewsList);
             return View(insurancesViewsList);
         }
-       
+
+       private async Task checkForInsuranceExpire(InsuranceViewsList insurancesViewsList)
+       {
+           foreach (var insurance in insurancesViewsList) {
+               var daysToExpire = (int)Math.Ceiling(((insurance.ValidTo ?? DateTime.MaxValue) - DateTime.Now)
+                   .TotalDays);
+               if (daysToExpire < 0) {
+                   insurance.Status = Status.Inactive.ToString();
+                   var insur = await insurances.GetObject(insurance.ID);
+                   insur.Data.Status = insurance.Status;
+                   await insurances.UpdateObject(insur);
+                   continue;
+               }
+               if (daysToExpire < 30 && insurance.Status == "Active") {
+                   insurance.Status = $"Active (expires in {daysToExpire} days)";
+               }
+           }
+       }
+
        public async Task<IActionResult> Create(string accountId){
            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
            var accIds = new List<string>();
@@ -94,10 +115,15 @@ namespace Open.Sentry.Controllers
                insurance.Data.Status = Status.Active.ToString();
 
                accountObject.Data.Balance = accountObject.Data.Balance - model.Payment;
+               
+               var transaction = TransactionFactory.CreateTransaction(model.ID, model.Payment,
+                   model.Type + " insurance", "systemAccount", model.AccountId,
+                   model.ValidFrom, model.ValidTo);
 
                await insurances.AddObject(insurance);
                await accounts.UpdateObject(accountObject);
                await generateInsuranceNotification(insurance);
+               await transactions.AddObject(transaction);
                
                TempData["Status"] =                  
                    insurance.Data.Type +  " insurance is now valid from " + insurance.Data.ValidFrom.ToString("dd/M/yyyy", CultureInfo.InvariantCulture) + " to "
