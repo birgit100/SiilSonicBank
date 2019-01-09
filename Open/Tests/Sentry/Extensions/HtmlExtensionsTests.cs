@@ -109,5 +109,75 @@ namespace Open.Tests.Sentry.Extensions {
                 "</div>";
             Assert.AreEqual(expected, writer.ToString());
         }
+
+        [TestMethod]
+        public void EditingControlsForDecimalTest()
+        {
+            var v = helper.EditingControlsForDecimal(x => x.Balance);
+            v.WriteTo(writer, new HtmlTestEncoder());
+            const string expected =
+                "<div class=\"form-group\">" +
+                "LabelFor Balance { class = control-label col-md-4, style = font-weight: bold }" +
+                "<div class=\"col-md-4\">" +
+                "EditorFor Balance { htmlAttributes = { class = form-control, type = number, min = 0, step = .01, value = 0 } }" +
+                "ValidationMessageFor Balance { class = text-danger }" +
+                "</div>" +
+                "</div>";
+            Assert.AreEqual(expected, writer.ToString());
+        }
+        [TestMethod]
+        public void DropDownEditingControlsForListTest()
+        {
+            var selectList = new SelectList("random");
+            var v = helper.DropDownEditingControlsForList(x => x.Balance, selectList);
+            v.WriteTo(writer, new HtmlTestEncoder());
+            const string expected =
+                "<div class=\"form-group\">" +
+                "LabelFor Balance { class = control-label col-md-4, style = font-weight: bold }" +
+                "<div class=\"col-md-4\">" +
+                "DropDownListFor Balance { class = form-control }" +
+                "ValidationMessageFor Balance { class = text-danger }" +
+                "</div>" +
+                "</div>";
+            Assert.AreEqual(expected, writer.ToString());
+        }
+        [TestMethod]
+        public void DropDownEditingControlsForListWithCustomLabelTest()
+        {
+            var selectList = new SelectList("random");
+            var v = helper.DropDownEditingControlsForList(x => x.Balance, selectList);
+            v.WriteTo(writer, new HtmlTestEncoder());
+            const string expected =
+                "<div class=\"form-group\">" +
+                "LabelFor Balance { class = control-label col-md-4, style = font-weight: bold }" +
+                "<div class=\"col-md-4\">" +
+                "DropDownListFor Balance { class = form-control }" +
+                "ValidationMessageFor Balance { class = text-danger }" +
+                "</div>" +
+                "</div>";
+            Assert.AreEqual(expected, writer.ToString());
+        }
+        [TestMethod]
+        public void ViewingControlsCustomLabelForTest()
+        {
+            var selectList = new SelectList("random");
+            var v = helper.DropDownEditingControlsForList(x => x.Balance, selectList);
+            v.WriteTo(writer, new HtmlTestEncoder());
+            const string expected =
+                "<div class=\"form-group\">" +
+                "LabelFor Balance { class = control-label col-md-4, style = font-weight: bold }" +
+                "<div class=\"col-md-4\">" +
+                "DropDownListFor Balance { class = form-control }" +
+                "ValidationMessageFor Balance { class = text-danger }" +
+                "</div>" +
+                "</div>";
+            Assert.AreEqual(expected, writer.ToString());
+        }
+        [TestMethod]
+        public void DisplayForSignalRTest()
+        {
+            
+        }
+
     }
 }

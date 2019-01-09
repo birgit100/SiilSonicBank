@@ -110,6 +110,25 @@ namespace Open.Sentry.Extensions {
 
             return new HtmlContentBuilder(htmlStrings);
         }
+
+        public static IHtmlContent EditingControlsForDecimal<TModel, TResult>(
+            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression)
+        {
+            var htmlStrings = new List<object> {
+                new HtmlString("<div class=\"form-group\">"),
+                htmlHelper.LabelFor(expression, new { @class = "control-label col-md-4", style = "font-weight: bold" }),
+                new HtmlString("<div class=\"col-md-4\">"),
+                htmlHelper.EditorFor(expression, new {
+                    htmlAttributes = new
+                        { @class = "form-control", @type = "number", @min = "0", @step = ".01", @value = "0", }
+                }),
+                htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
+                new HtmlString("</div>"),
+                new HtmlString("</div>")
+            };
+
+            return new HtmlContentBuilder(htmlStrings);
+        }
         public static IHtmlContent DropDownEditingControlsForList<TModel, TResult>(
             this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, SelectList selectList)
         {
@@ -142,25 +161,6 @@ namespace Open.Sentry.Extensions {
 
             return new HtmlContentBuilder(htmlStrings);
         }
-
-        public static IHtmlContent EditingControlsForDecimal<TModel, TResult>(
-            this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression) {
-            var htmlStrings = new List<object> {
-                new HtmlString("<div class=\"form-group\">"),
-                htmlHelper.LabelFor(expression, new { @class = "control-label col-md-4", style = "font-weight: bold" }),
-                new HtmlString("<div class=\"col-md-4\">"),
-                htmlHelper.EditorFor(expression, new {
-                    htmlAttributes = new
-                        { @class = "form-control", @type = "number", @min = "0", @step = ".01", @value = "0", }
-                }),
-                htmlHelper.ValidationMessageFor(expression, "", new { @class = "text-danger" }),
-                new HtmlString("</div>"),
-                new HtmlString("</div>")
-            };
-
-            return new HtmlContentBuilder(htmlStrings);
-        }
-
         public static IHtmlContent ViewingControlsCustomLabelFor<TModel, TResult>(
             this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, string label) {
             var htmlStrings = new List<object> {
