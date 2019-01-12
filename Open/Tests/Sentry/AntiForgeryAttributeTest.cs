@@ -6,7 +6,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 namespace Open.Tests.Sentry
 {
-    public class TestAntiForgeryAttribute : IAuthorizationFilter {
+    public class AntiForgeryAttributeTest : IAuthorizationFilter {
         public static bool IsValidated;
         public void OnAuthorization(AuthorizationFilterContext context) {
         }

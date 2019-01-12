@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Open.Infra;
 using Open.Sentry.Controllers;
 namespace Open.Tests.Sentry.Controllers {
-    [TestClass] public class HomeControllerTests : AcceptanceTests {
+    [TestClass] public class HomeControllerTests : AcceptanceTests<ApplicationDbContext> {
 
         [TestInitialize] public override void TestInitialize() {
             base.TestInitialize();
@@ -10,12 +11,12 @@ namespace Open.Tests.Sentry.Controllers {
         }
         [TestMethod] public async Task IndexTest() {
             var a = GetUrl.ForControllerAction<HomeController>(x => x.Index());
-            await testControllerAction(a, "<h1>SonicBank</h1>",
+            await testControllerAction(a,
                 "<h2>Welcome to SonicBank!</h2>", "<h3>Please log in to use our services!</h3>");
         }
         [TestMethod] public async Task HomeTest() {
             var a = GetUrl.ForControllerAction<HomeController>();
-            await testControllerAction(a, "<h1>SonicBank</h1>", "<h2>Welcome to SonicBank!</h2>",
+            await testControllerAction(a, "<h2>Welcome to SonicBank!</h2>",
                 "<h3>Please log in to use our services!</h3>");
         }
         [TestMethod] public async Task AboutTest() {
@@ -30,27 +31,9 @@ namespace Open.Tests.Sentry.Controllers {
             var a = GetUrl.ForControllerAction<HomeController>(x => x.Error());
             await testControllerAction(a, "<h1 class=\"text-danger\">Error.</h1>");
         }
-    /*    [TestMethod] public async Task MoneyTest() {
-            var a = GetUrl.ForControllerAction<HomeController>(x => x.Money());
-            await testControllerAction(a,
-                "<h2>Money</h2>",
-                "<h3>Money related stuff.</h3>",
-                "<li><a href=\"/Countries\">Countries</a></li>",
-                "<li><a href=\"/Currencies\">Currencies</a></li>",
-                "<li><a href=\"/RateTypes\">Rate Types</a></li>",
-                "<li><a href=\"/Rates\">Rates</a></li>",
-                "<li><a href=\"/PaymentMethods\">Payment methods</a></li>",
-                "<li><a href=\"/Payments\">Payments</a></li>",
-                "<li><a href=\"/Calculator\">Calculator</a></li>");
+        protected override void initializeDatabase(ApplicationDbContext context) {
+            AspNetUserInitializer.Initialize(context);
         }
-        [TestMethod] public async Task ContactsTest() {
-            var a = GetUrl.ForControllerAction<HomeController>(x => x.Contacts());
-            await testControllerAction(a,
-                "<h2>Contacts</h2>",
-                "<h3>Contacts related stuff.</h3>",
-                "<li><a href=\"/Countries\">Countries</a></li>",
-                "<li><a href=\"/Contacts\">Contacts</a></li>");
-        }*/
     }
 }
 

@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 namespace Open.Tests.Sentry {
 
-    public class TestAuthenticationHandler : AuthenticationHandler<TestAuthenticationOptions> {
+    public class AuthenticationHandlerTest : AuthenticationHandler<TestAuthenticationOptions> {
 
         public static bool IsLoggedIn;
 
-        public TestAuthenticationHandler(IOptionsMonitor<TestAuthenticationOptions> options,
+        public AuthenticationHandlerTest(IOptionsMonitor<TestAuthenticationOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
 

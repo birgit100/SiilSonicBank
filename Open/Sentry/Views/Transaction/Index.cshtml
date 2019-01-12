@@ -56,7 +56,7 @@
                             <b>
                                 @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.FirstName) @Html.DisplayFor(modelItem => item.SenderAccount.AspNetUser.LastName)
                             </b><br />
-                            @Html.DisplayFor(modelItem => item.SenderAccountId)
+                        @if (item.SenderAccountId != "systemAccount") { @Html.DisplayFor(modelItem => item.SenderAccountId) }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.Explanation)</td>
                         <td>

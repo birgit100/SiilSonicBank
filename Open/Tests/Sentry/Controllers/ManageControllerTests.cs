@@ -1,103 +1,110 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Open.Infra;
 using Open.Sentry.Controllers;
 namespace Open.Tests.Sentry.Controllers
 {
-    [TestClass] public class ManageControllerTests: AcceptanceTests
+    [TestClass]
+    public class ManageControllerTests : AcceptanceTests<ApplicationDbContext>
     {
-        [TestInitialize] public override void TestInitialize() {
+        [TestInitialize]
+        public override void TestInitialize()
+        {
             base.TestInitialize();
             type = typeof(ManageController);
         }
         [TestMethod]
         public void IndexTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void SendVerificationEmailTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void ChangePasswordTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void SetPasswordTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void ExternalLoginsTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void LinkLoginTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void LinkLoginCallbackTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void RemoveLoginTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void TwoFactorAuthenticationTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void Disable2FaWarningTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void Disable2FaTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void EnableAuthenticatorTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void ShowRecoveryCodesTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void ResetAuthenticatorWarningTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void ResetAuthenticatorTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void GenerateRecoveryCodesWarningTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void GenerateRecoveryCodesTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
         [TestMethod]
         public void StatusMessageTest()
         {
-            Assert.Inconclusive();
+            //TODO: Assert.Inconclusive("Don't know how to test");
         }
-
+        protected override void initializeDatabase(ApplicationDbContext context)
+        {
+            AspNetUserInitializer.Initialize(context);
+        }
     }
 }

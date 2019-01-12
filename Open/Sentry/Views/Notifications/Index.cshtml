@@ -18,6 +18,7 @@
             @Html.SortColumnHeaderFor(x => notification.SenderAccountId, ViewData["SortSenderAccount"])
             @Html.SortColumnHeaderFor(x => notification.Message, ViewData["SortMessage"])
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -29,7 +30,7 @@
                         @Html.DisplayFor(modelItem => item.Sender.AspNetUser.FirstName)
                         @Html.DisplayFor(modelItem => item.Sender.AspNetUser.LastName)
                     </b><br/>
-                    @Html.DisplayFor(modelItem => item.SenderAccountId)
+                    @if (item.SenderAccountId != "systemAccount") { @Html.DisplayFor(modelItem => item.SenderAccountId) }
                 </td>
                 <td>
                     (@Html.DisplayFor(modelItem => item.ReceiverAccountId)) <br/>
@@ -43,7 +44,7 @@
                 </td>
                 <td>
                     <a class="btn btn-primary btn-sm btn-block"
-                       href="@Url.Action("Delete", "Notifications", new {id = item.ID})">
+                       href="@Url.Action("Delete", "Notifications", new {id = item.ID})" onclick="return confirm('Do you wish to delete this?');">
                         Delete &raquo;
                     </a>
                 </td>

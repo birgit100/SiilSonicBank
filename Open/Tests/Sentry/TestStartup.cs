@@ -27,7 +27,7 @@ namespace Open.Tests.Sentry {
 
         protected override void setMvcWithAntiForgeryToken(IServiceCollection services)
         {
-            services.AddMvc(options =>options.Filters.Add(new TestAntiForgeryAttribute()));
+            services.AddMvc(options =>options.Filters.Add(new AntiForgeryAttributeTest()));
         }
 
         protected override void setErrorPage(IApplicationBuilder app, IHostingEnvironment env) {
