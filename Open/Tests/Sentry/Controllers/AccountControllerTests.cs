@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Open.Aids;
+using Open.Domain.Party;
 using Open.Infra;
 using Open.Sentry.Controllers;
 using Open.Sentry.Models.AccountViewModels;
@@ -114,9 +115,17 @@ namespace Open.Tests.Sentry.Controllers
             {
                 var x = o as RegisterViewModel;
                 var d = new Dictionary<string, string> {
+                    {GetMember.Name<RegisterViewModel>(m => m.FirstName), x?.FirstName},
+                    {GetMember.Name<RegisterViewModel>(m => m.LastName), x?.LastName},
+                    {GetMember.Name<RegisterViewModel>(m => m.DateOfBirth.ToString()), x?.DateOfBirth.ToString()},
                     {GetMember.Name<RegisterViewModel>(m => m.Email), x?.Email},
                     {GetMember.Name<RegisterViewModel>(m => m.Password), x?.Password},
-                    {GetMember.Name<RegisterViewModel>(m => m.ConfirmPassword), x?.ConfirmPassword}
+                    {GetMember.Name<RegisterViewModel>(m => m.ConfirmPassword), x?.ConfirmPassword},
+                    {GetMember.Name<RegisterViewModel>(m => m.Country), x?.Country},
+                    {GetMember.Name<RegisterViewModel>(m => m.AddressLine), x?.AddressLine},
+                    {GetMember.Name<RegisterViewModel>(m => m.ZipCode), x?.ZipCode},
+                    {GetMember.Name<RegisterViewModel>(m => m.City), x?.City},
+                    {GetMember.Name<RegisterViewModel>(m => m.County), x?.County}
                 };
                 return d;
             }
@@ -126,6 +135,14 @@ namespace Open.Tests.Sentry.Controllers
                 vm.Email = GetRandom.Email();
                 vm.Password = GetRandom.Password();
                 vm.ConfirmPassword = vm.Password;
+                vm.FirstName = GetRandom.String();
+                vm.LastName = GetRandom.String();
+                vm.DateOfBirth = GetRandom.DateTime();
+                vm.Country = GetRandom.Object<Country>().ToString();
+                vm.AddressLine = GetRandom.String();
+                vm.ZipCode = GetRandom.String();
+                vm.City = GetRandom.String();
+                vm.County = GetRandom.String();
                 return vm;
             }
             await createAllGivenTest<AccountController>(x => x.Register(null),

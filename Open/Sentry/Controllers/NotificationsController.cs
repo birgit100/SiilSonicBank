@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Open.Core;
@@ -12,6 +13,7 @@ using Open.Facade.Bank;
 using Open.Facade.Notification;
 namespace Open.Sentry.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         private readonly INotificationsRepository notifications;
