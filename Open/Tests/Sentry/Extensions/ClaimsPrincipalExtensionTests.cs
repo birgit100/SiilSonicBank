@@ -36,9 +36,9 @@ namespace Open.Tests.Sentry.Extensions
         {
             var s = new ClaimsPrincipal();
             principal.GetLastName();
-            var firstName = principal.GetType().ToString();
-            Assert.IsNotNull(firstName);
-            Assert.AreEqual("System.Security.Claims.ClaimsPrincipal", firstName);
+            var lastName = principal.GetType().ToString();
+            Assert.IsNotNull(lastName);
+            Assert.AreEqual("System.Security.Claims.ClaimsPrincipal", lastName);
         }
     }
 }

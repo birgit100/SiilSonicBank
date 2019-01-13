@@ -56,6 +56,5 @@ namespace Open.Tests.Sentry
 
         protected abstract Task validateEntityInRepository(object o);
         protected abstract IEnumerable<KeyValuePair<string, string>> createHttpPostContext(object o);
-        protected abstract object createRandomViewModel();
     }
 }

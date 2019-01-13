@@ -16,10 +16,10 @@ namespace Open.Sentry.Controllers
    [Authorize]
     public class InsuranceController : Controller {
         private readonly IAccountsRepository accounts;
-       private readonly IInsuranceRepository insurances;
+        private readonly IInsuranceRepository insurances;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly INotificationsRepository notifications;
-       private readonly ITransactionRepository transactions;
+        private readonly ITransactionRepository transactions;
         internal const string properties =
             "ID, PaymentInStringFormat, Type, Status, AccountId, ValidFrom, ValidTo";
 
