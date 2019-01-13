@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -14,6 +15,7 @@ using Open.Facade.Bank;
 using Open.Sentry.Hubs;
 
 namespace Open.Sentry.Controllers {
+    [Authorize]
     public class BankAccountController : Controller {
         private readonly IAccountsRepository repository;
         private readonly ITransactionRepository transations; 
@@ -67,7 +69,6 @@ namespace Open.Sentry.Controllers {
             await repository.UpdateObject(account);
             return RedirectToAction("Index", "Home");
         }
-
         public async Task<IActionResult> Deactivate(string id)
         {
             var c = await repository.GetObject(id);
