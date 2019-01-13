@@ -13,7 +13,7 @@ namespace Open.Sentry.Extensions
 
         public static string GetLastName(this ClaimsPrincipal principal)
         {
-            var lastName = principal.Claims.FirstOrDefault(c => c.Type == "LastName");
+            var lastName = principal.Claims.LastOrDefault(c => c.Type == "LastName");
             return lastName?.Value;
         }
     }
