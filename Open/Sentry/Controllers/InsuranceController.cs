@@ -32,7 +32,7 @@ namespace Open.Sentry.Controllers
             userManager = uManager;
         }
 
-        public async Task<IActionResult> Index(string id, string sortOrder = null, string currentFilter = null,
+        public async Task<IActionResult> Index(string sortOrder = null, string currentFilter = null,
             string searchString = null, int? page = null){
             ViewData["CurrentSort"] = sortOrder;
             ViewData["SortValidFrom"] = string.IsNullOrEmpty(sortOrder) ? "validFrom_desc" : "";
@@ -44,8 +44,6 @@ namespace Open.Sentry.Controllers
             insurances.SortOrder = sortOrder != null && sortOrder.EndsWith("_desc")
                 ? SortOrder.Descending
                 : SortOrder.Ascending;
-            
-            
             insurances.SortFunction = getSortFunction(sortOrder);
             if (searchString != null) page = 1;
             else searchString = currentFilter;

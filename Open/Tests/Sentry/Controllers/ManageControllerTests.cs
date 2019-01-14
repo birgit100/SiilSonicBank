@@ -104,7 +104,7 @@ namespace Open.Tests.Sentry.Controllers
         }
         protected override void initializeDatabase(ApplicationDbContext context)
         {
-            AspNetUserInitializer.Initialize(context);
+            DbInitializer.Initialize(context);
         }
     }
 }

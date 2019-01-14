@@ -32,7 +32,7 @@ namespace Open.Tests.Sentry.Controllers {
             await testControllerAction(a, "<h1 class=\"text-danger\">Error.</h1>");
         }
         protected override void initializeDatabase(ApplicationDbContext context) {
-            AspNetUserInitializer.Initialize(context);
+            DbInitializer.Initialize(context);
         }
     }
 }

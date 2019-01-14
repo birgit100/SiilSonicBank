@@ -48,9 +48,9 @@ namespace Open.Tests.Sentry.Controllers
         {
             return new List<string> {
                 "<h2>Your notifications</h2>",
-                "<th><a href=\"/payments?SortOrder=validFrom\">Sent at</a></th>",
-                "<th><a href=\"/payments?SortOrder=senderAccount\">Sent From</a></th>",
-                "<th><a href=\"/payments?SortOrder=message\">Message</a></th>",
+                "<th><a href=\"/notifications?SortOrder=validFrom\">Sent at</a></th>",
+                "<th><a href=\"/notifications?SortOrder=senderAccount\">Sent From</a></th>",
+                "<th><a href=\"/notifications?SortOrder=message\">Message</a></th>",
             };
         }
         protected override async Task validateEntityInRepository(object o)
@@ -236,34 +236,34 @@ namespace Open.Tests.Sentry.Controllers
         }
         protected object createRandomViewModel()
         {
-            var v = GetRandom.Object<InsuranceView>();
+            var v = GetRandom.Object<WelcomeNotificationView>();
             v.ValidTo = GetRandom.DateTime(v.ValidFrom);
-            v.AccountId = account.ID;
-            v.Account = account;
+            v.SenderAccountId = "systemAccount";
+            v.ReceiverAccountId = account.ID;
             return v;
         }
 
         protected override string createDbRecord()
         {
-            var r = GetRandom.Object<AccountData>();
-            db.Accounts.Add(r);
+            var r = GetRandom.Object<WelcomeNotificationData>();
+            db.Notifications.Add(r);
             db.SaveChanges();
             specificStringsToTestInView = new List<string> {
                 $"{r.ID}",
-                $"{r.Type}",
-                $"{r.Balance?.ToString(CultureInfo.CurrentCulture)}",
+                $"{r.Message}",
+                $"{r.SenderId}",
                 $"{r.ValidFrom.Date:dd/MM/yyyy}"
             };
             return r.ID;
         }
         protected override void initializeDatabase(ApplicationDbContext context)
         {
-            AspNetUserInitializer.Initialize(context);
+            DbInitializer.Initialize(context);
         }
         [TestMethod]
         public async Task IndexTest()
         {
-            var a = GetUrl.ForControllerAction<InsuranceController>(x => x.Index(aspNetUser.Id, null, null, null, null));
+            var a = GetUrl.ForControllerAction<NotificationsController>(x => x.Index(null, null, null, null));
             await testWhenLoggedOut(a, HttpStatusCode.Unauthorized);
             var strings = new List<string> {
                 $"<form method=\"get\" action=\"/{controller}\"",
