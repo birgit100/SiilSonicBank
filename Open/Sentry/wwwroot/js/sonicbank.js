@@ -2,29 +2,31 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/bankHub").build();
 
-connection.on("NewAccount", function(id, type, balance, status) {
+connection.on("NewAccount", function(accId, accType, balance, accStatus, validTo) {
     balance += ".00";
     var tableId = "accTable";
     var accTable = document.getElementById(tableId).innerHTML;
-    accTable += "<tr>" +
-        "<td>" + id + "</td>" +
-        "<td>" + type + "</td>" +
+    accTable += "<tr class=\"collapsible\">" +
+        "<td>" +
+            "<a href=\"/Transaction/Index/" + accId + "\" style=\"font-weight: bold\">" + accId + "</a>" +
+        "</td>" +
+        "<td>" + accType + "</td>" +
         "<td>" + balance + "</td>" +
-        "<td>" + status + "</td>" +
         "<td>" +
-            "<a class=\"btn btn-primary btn-sm btn-block\" href=\"/Transaction/Index/" + id + "\">Transactions »</a>" +
+            "<span>" + accStatus + "</span>" +
         "</td>" +
-        "<td>" +
-            "<a class=\"btn btn-primary btn-sm btn-block\" href=\"/Transaction/Create?senderId=" + id + "\">New transaction »</a>" +
-        "</td>" +
-        "<td>" +
-            "<a class=\"btn btn-primary btn-sm btn-block\" href=\"/Insurance/Create?id=" + id + "\">New request »</a>" +
-        "</td>" +
-        "<td>" +
-            "<a class=\"btn btn-primary btn-sm btn-block\" href=\"/Insurance/Create?id=" + id + "\">New insurance »</a>" +
-        "</td>" +
+        "<td>" + validTo + "</td>" +
         "</tr>";
-
+    
+    accTable += "<tr class=\"content\">" +
+        "<td></td><td></td><td></td>" +
+        "<td>" +
+            "<a class=\"btn btn-primary btn-sm\" href=\"/BankAccount/Renew/" + accId + "\">Renew »</a>" +
+            "<a class=\"btn btn-primary btn-sm\" href=\"/BankAccount/Deactivate/" + accId + "\">Deactivate »</a>" +
+        "</td>" +
+        "<td></td>" +
+        "</tr>";
+    
     document.getElementById(tableId).innerHTML = accTable;
 });
 

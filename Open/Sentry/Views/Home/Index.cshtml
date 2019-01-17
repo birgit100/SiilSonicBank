@@ -37,8 +37,7 @@
             <h2>Welcome to SonicBank!</h2>
             <h3>Please log in to use our services!</h3>
         </div>
-    }
-    else {
+    } else {
         <div class="col-md-12">
             <h2>Welcome, @User.GetFirstName()!</h2>
             @if (Model.Count == 0) {
@@ -46,15 +45,14 @@
                    href="@Url.Action("Create", "BankAccount")">
                     Create your first account &raquo;
                 </a>
-            }
-            else {
+            } else {
                 <div>
                     <a class="btn btn-outline-danger btn-sm" style="font-weight: bold"
                        href="@Url.Action("Create", "BankAccount")">
                         Create new account &raquo;
                     </a>
                 </div>
-                <div style="overflow-x:auto;">
+                <div style="overflow-x: auto;">
                     <table class="table">
                         <thead>
                         <tr>
@@ -78,8 +76,7 @@
                                 <td>
                                     @if (item.Status.Contains("expires")) {
                                         <span style="color: red;">@item.Status</span>
-                                    }
-                                    else {
+                                    } else {
                                         <span>@item.Status</span>
                                     }
                                 </td>
@@ -105,6 +102,7 @@
                                 <td></td>
                             </tr>
                         }
+                        </tbody>
                     </table>
                 </div>
                 <script>

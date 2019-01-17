@@ -18,7 +18,7 @@ namespace Open.Sentry.Controllers {
     [Authorize]
     public class BankAccountController : Controller {
         private readonly IAccountsRepository repository;
-        private readonly ITransactionRepository transations; 
+        private readonly ITransactionRepository transations;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly INotificationsRepository notifications;
         private readonly IHubContext<BankHub> _bankHub;
@@ -51,11 +51,12 @@ namespace Open.Sentry.Controllers {
             var o = AccountFactory.CreateAccount(c.ID, c.Balance, c.Type, c.Status, c.AspNetUserId,
                 c.ValidFrom = DateTime.Now, c.ValidTo = DateTime.Now.AddYears(2));
             await repository.AddObject(o);
-            await _bankHub.Clients.All.SendAsync("NewAccount", c.ID, c.Type, c.Balance, c.Status);
+            await _bankHub.Clients.All.SendAsync("NewAccount", c.ID, c.Type, c.Balance, c.Status, c.ValidTo.Value.Date.ToShortDateString());
             await createWelcomeNotification(c.ID);
             await createWelcomeTransaction(c.ID);
             return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> Renew(string id) {
             var c = await repository.GetObject(id);
             return View(AccountViewFactory.Create(c));
@@ -69,20 +70,21 @@ namespace Open.Sentry.Controllers {
             await repository.UpdateObject(account);
             return RedirectToAction("Index", "Home");
         }
-        public async Task<IActionResult> Deactivate(string id)
-        {
+
+        public async Task<IActionResult> Deactivate(string id) {
             var c = await repository.GetObject(id);
             return View(AccountViewFactory.Create(c));
         }
+
         [HttpPost, ActionName("Deactivate")]
-        public async Task<IActionResult> DeactivateConfirmed(string id)
-        {
+        public async Task<IActionResult> DeactivateConfirmed(string id) {
             var c = await repository.GetObject(id);
             c.Data.Status = Status.Inactive.ToString();
             c.Data.ValidTo = DateTime.Now;
             await repository.UpdateObject(c);
             return RedirectToAction("Index", "Home");
         }
+
         private async Task validateId(string id, ModelStateDictionary d) {
             if (await isIdInUse(id))
                 d.AddModelError(string.Empty, idIsInUseMessage(id));
@@ -97,13 +99,13 @@ namespace Open.Sentry.Controllers {
             return string.Format(Messages.ValueIsAlreadyInUse, id, name);
         }
 
-        private async Task createWelcomeTransaction(string accountId)
-        {
+        private async Task createWelcomeTransaction(string accountId) {
             var amount = 500;
             var explanation = "Gift from us to get started";
             var senderAccountId = "systemAccount";
-            var welcomeTransaction = TransactionFactory.CreateTransaction(Guid.NewGuid().ToString(), amount, explanation, senderAccountId,
-            accountId, DateTime.Now);
+            var welcomeTransaction = TransactionFactory.CreateTransaction(Guid.NewGuid().ToString(), amount,
+                explanation, senderAccountId,
+                accountId, DateTime.Now);
             await transations.AddObject(welcomeTransaction);
             var senderObject = await repository.GetObject(senderAccountId);
             senderObject.Data.Balance = senderObject.Data.Balance - amount;
@@ -116,8 +118,8 @@ namespace Open.Sentry.Controllers {
                 accountId, false, DateTime.Now);
             await notifications.AddObject(welcome);
         }
-        private async Task generateTransactionNotification(Transaction transaction)
-        {
+
+        private async Task generateTransactionNotification(Transaction transaction) {
             var notification = NotificationFactory.CreateNewTransactionNotification(
                 Guid.NewGuid().ToString(), transaction.Data.SenderAccountId,
                 transaction.Data.ReceiverAccountId, transaction.Data.Amount,
